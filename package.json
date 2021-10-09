@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "npm run deleteBuild && tsc && npm run copyClient && node app.js",
+    "deleteBuild": "@powershell Remove-Item './build' -Recurse -Force -Confirm:$false",
+    "copyClient": "@powershell copy './client/*' './build'",
+    "build": "tsc"
+  },  
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.13",
+    "typescript": "^4.4.3"
+  }
+}
