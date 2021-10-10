@@ -1,0 +1,2 @@
+- reference when update size or throw error
+  e.g. this.transform.size.x += 1

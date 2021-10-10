@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "npm run deleteBuild && tsc && npm run copyClient && node app.js",
+    "start-fast": "tsc && node app.js",
     "deleteBuild": "@powershell Remove-Item './build' -Recurse -Force -Confirm:$false",
     "copyClient": "@powershell copy './client/*' './build'",
     "build": "tsc"
