@@ -17,11 +17,11 @@ class MouseClass {
   }
 
   public get Position() {
-    return this._position;
+    return new Position(this._position);
   }
 
   public set Position(position: Position) {
-    this._position = position
+    this._position = new Position(position)
   }
 
   public get Click() {
@@ -84,7 +84,6 @@ class GameEngineClass {
   }
 
   private collisionCheck() {
-    console.log(this._updateSubscribers)
     const length = this._updateSubscribers.length
     for (let i = 0; i < length - 1; i++) {
       for (let j = i + 1; j < length; j++) {
@@ -92,10 +91,13 @@ class GameEngineClass {
         const subscriber2 = this._updateSubscribers[j]
         if (subscriber1.Id === subscriber2.Id) continue;
 
-        const dx = subscriber1.Transform.Position.x - subscriber2.Transform.Position.x
-        const dy = subscriber1.Transform.Position.y - subscriber2.Transform.Position.y
-        const dist = Math.sqrt(dx * dx + dy * dy)
-        console.log(dist)
+        const diffX = Math.abs(subscriber1.Transform.Position.x - subscriber2.Transform.Position.x)
+        const diffY = Math.abs(subscriber1.Transform.Position.y - subscriber2.Transform.Position.y)
+
+        if (diffX * 2 <= subscriber1.Transform.Size.x + subscriber2.Transform.Size.x
+          && diffY * 2 <= subscriber1.Transform.Size.y + subscriber2.Transform.Size.y) {
+          console.log("Collision!!")
+        }
       }
     }
   }
@@ -126,6 +128,8 @@ class GameEngineClass {
     return this._canvas
   }
 }
+
+//#region OBJECT PRIMITIVES
 
 class Position {
   x: number;
@@ -191,6 +195,10 @@ class Transform {
   }
 }
 
+class Collider { }
+
+//#endregion
+
 class GameObject {
   private gameEngine: GameEngineClass
   private _transform: Transform
@@ -201,6 +209,7 @@ class GameObject {
     this._id = this.gameEngine.generateId()
     this._transform = new Transform()
   }
+
   update(): void { }
 
   public get Transform() {
